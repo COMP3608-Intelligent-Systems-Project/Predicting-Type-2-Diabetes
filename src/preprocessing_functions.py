@@ -14,28 +14,29 @@ from sklearn.preprocessing import LabelEncoder
 from imblearn.over_sampling import SMOTE
 
 def impute_missing(df, strategy="median"):
+    print("-" * 40)
+    print(f" Imputation (Strategy: {strategy})")
+    print("-" * 40)
 
     df_imputed = df.copy()
-    numerical_cols = df_imputed.select_dtypes(include=[np.number]).columns
+    numerical_cols = df_imputed.select_dtypes(include=[np.number]).columns.tolist()
 
-    for col in numerical_cols:
-        if df_imputed[col].isnull().sum() > 0:
-            if strategy == "median":
-              imputed_value = df_imputed[col].median()
-              df_imputed[col].fillna(imputed_value, inplace=True)
-            elif strategy == "mean":
-              imputed_value = df_imputed[col].mean()
-              df_imputed[col].fillna(imputed_value, inplace=True)
-            else:
-                raise ValueError("strategy must be 'median' or 'mean'")
+    cols_to_fix = [col for col in numerical_cols if df_imputed[col].isnull().sum() > 0]
 
-            print(f"  Imputed {col} with {strategy}: {df_imputed[col].median():.2f}")
+    if not cols_to_fix:
+        print("No missing values found in numerical columns - skipping.")
+    else:
+        for col in cols_to_fix:
+            null_count = df_imputed[col].isnull().sum()
+            fill_value = df_imputed[col].median() if strategy == "median" else df_imputed[col].mean()
+            df_imputed[col] = df_imputed[col].fillna(fill_value)
+            print(f"{col}: Filled {null_count} missing values with {fill_value}")
 
-    print(f"Imputation complete. Remaining nulls: {df_imputed.isnull().sum().sum()}")
+    print(f"Final null count: {df_imputed.isnull().sum().sum()}")
+    print("-" * 40)
     return df_imputed
 
 def encode_categoricals(df):
-
     categorical_cols = df.select_dtypes(include=["object"]).columns.tolist()
 
     if not categorical_cols:
@@ -52,50 +53,54 @@ def encode_categoricals(df):
         print(f"  Unique values: {df[col].unique()}")
         print(f"  Value counts:\n{df[col].value_counts()}")
 
-    df_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=False)
+    df_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
 
-    new_cols = [col for col in df_encoded.columns if any(col.startswith(f"{c}_") for c in categorical_cols)]
+    new_cols = [col for col in df_encoded.columns if any(c in col for c in categorical_cols)]
     print(f"\nNew columns created: {new_cols}")
-    print(f"Shape before encoding: {df.shape} | Shape after: {df_encoded.shape}")
+    print(f"Shape before: {df.shape} | Shape after: {df_encoded.shape}")
     print("-" * 40)
 
     return df_encoded
 
-def split_data(df, target_col, test_size=0.2, random_state=42):
+def split_data(df, target_col):
+    print("-" * 40)
+    print(" Data Splitting (80/20 Stratified)")
+    print("-" * 40)
 
     X = df.drop(columns=[target_col])
     y = df[target_col]
 
+    print(f"Target variable: '{target_col}'")
+    print(f"Original Class Distribution:\n{y.value_counts(normalize=True) * 100}")
+
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y,
-        test_size=test_size,
-        random_state=random_state,
-        stratify=y
+        X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    print(f"Split complete:")
-    print(f"  X_train: {X_train.shape} | X_test: {X_test.shape}")
-    print(f"  y_train class balance: {y_train.value_counts(normalize=True).round(3).to_dict()}")
-    print(f"  y_test  class balance: {y_test.value_counts(normalize=True).round(3).to_dict()}")
+    print(f"\nSplit successful:")
+    print(f"   Train: {X_train.shape[0]} rows")
+    print(f"   Test:  {X_test.shape[0]} rows")
+    print("-" * 40)
     return X_train, X_test, y_train, y_test
 
-def apply_smote(X_train, y_train, random_state=42):
+def apply_smote(X_train, y_train):
+    print("-" * 40)
+    print(" SMOTE Class Balancing")
+    print("-" * 40)
 
-    print(f"Before SMOTE - class distribution: {pd.Series(y_train).value_counts().to_dict()}")
+    print(f"Before SMOTE: {pd.Series(y_train).value_counts().to_dict()}")
 
-    smote = SMOTE(random_state=random_state)
-    X_resampled, y_resampled = smote.fit_resample(X_train, y_train)
+    smote = SMOTE(random_state=42)
+    X_res, y_res = smote.fit_resample(X_train, y_train)
 
-    print(f"After SMOTE  - class distribution: {pd.Series(y_resampled).value_counts().to_dict()}")
-    print(f"Training set size: {X_train.shape[0]} -> {X_resampled.shape[0]}")
-    return X_resampled, y_resampled
+    print(f"After SMOTE:  {pd.Series(y_res).value_counts().to_dict()}")
+    print(f"New training set size: {X_res.shape[0]} rows")
+    print("-" * 40)
+    return X_res, y_res
 
-print("-" * 50)
-print(" All preprocessing functions loaded successfully")
-print("-" * 50)
-print("  impute_missing(df, strategy='median')")
-print("  encode_categoricals(df)")
-print("  split_data(df, target_col, test_size=0.2)")
-print("  apply_smote(X_train, y_train)")
-print("-" * 50)
-print("\nReady to use in datasets!")
+print("\n" + "-"*45)
+print("   PREPROCESSING TOOLBOX INITIALIZED")
+print("-"*45)
+print(" Functions: impute_missing, encode_categoricals,")
+print("            split_data, apply_smote")
+print("-"*45)
