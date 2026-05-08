@@ -204,7 +204,7 @@ Each experiment notebook follows a consistent four-experiment pipeline:
 
 ## Results Summary
 
-*(Results are populated after running the experiment notebooks. The tables below reflect the structure of the output produced by each experiment notebook. Addationally, visuals such as heatmaps, bar graphs, and confussion matricis are included)*
+*(Results are populated after running the experiment notebooks. The tables below reflect the structure of the output produced by each experiment notebook. Additionally, visuals such as heatmaps, bar graphs, and confussion matrices are included)*
 
 **Experiment 1 - Baseline F1-Score by Dataset:**
 
