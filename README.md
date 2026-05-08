@@ -25,13 +25,13 @@
 
 ## Project Overview
 
-Type 2 diabetes affects over **537 million adults worldwide** and accounts for more than 90% of all diabetes cases. Despite being largely preventable, it remains critically underdiagnosed — particularly in low-to-middle income and marginalised communities — leading to severe downstream complications including cardiovascular disease, chronic kidney disease, and retinopathy.
+Type 2 diabetes affects over **537 million adults worldwide** and accounts for more than 90% of all diabetes cases. Despite being largely preventable, it remains critically underdiagnosed, particularly in low-to-middle income and marginalised communities, leading to severe downstream complications including cardiovascular disease, chronic kidney disease, and retinopathy.
 
 This project investigates the following core question:
 
 > *How effectively can we predict Type 2 diabetes using medical and lifestyle data, and which algorithms remain the most accurate and reliable across different datasets representing different populations?*
 
-Rather than optimising a single model on a single dataset, this study takes a **comparative approach** - benchmarking three state-of-the-art algorithms across three datasets that span clinical, demographic, and population health domains. The emphasis is on understanding the **tradeoffs** between approaches and how well models generalise beyond the population they were trained on.
+Rather than optimising a single model on a single dataset, this study takes a **comparative approach**, benchmarking three state-of-the-art algorithms across three datasets that span clinical, demographic, and population health domains. The emphasis is on understanding the **tradeoffs** between approaches and how well models generalise beyond the population they were trained on.
 
 ---
 
