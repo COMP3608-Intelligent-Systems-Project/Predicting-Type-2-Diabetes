@@ -39,9 +39,9 @@ Rather than optimising a single model on a single dataset, this study takes a **
 
 | Name | Student ID | Primary Responsibilities |
 |---|---|---|
-| Tamika Andrews | 816039421 | EDA & Preprocessing (Diabetes Prediction Dataset), LightGBM experiments |
-| Dylan Corbett | 816039487 | EDA & Preprocessing (BRFSS), XGBoost experiments |
-| Kieron Seepersad | 816041436 | EDA & Preprocessing (Pima), Logistic Regression experiments |
+| Tamika Andrews | 816039421 | EDA & Preprocessing (Diabetes Prediction Dataset) |
+| Dylan Corbett | 816039487 | EDA & Preprocessing (BRFSS) |
+| Kieron Seepersad | 816041436 | EDA & Preprocessing (Pima) |
 
 ---
 
