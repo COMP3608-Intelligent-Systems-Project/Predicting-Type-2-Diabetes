@@ -241,15 +241,7 @@ Dataset-specific methods include:
 - Logistic Regression coefficient analysis where relevant
 - Univariate feature power analysis for Dataset 2
 - K-Fold stability testing for Dataset 2
-
-### Experiment 3B / Top-K Feature Comparison
-
-Compare model performance using:
-
-- all features
-- top-k features selected from feature importance
-
-This tests whether a smaller, more interpretable feature set can retain most of the predictive signal.
+- Top k-feature comparison analysis 
 
 ### Experiment 4 — Cross-Dataset Generalisation
 
